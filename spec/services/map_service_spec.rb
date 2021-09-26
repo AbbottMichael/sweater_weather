@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe MapService do
   context "class methods" do
     context "#get_lat_lng_by_location" do
-      it "returns the latitude and longitude of a given city and state" do
+      it "returns the latitude and longitude of a given city and state", :vcr do
         search = MapService.get_lat_lng_by_location("denver,co")
         expect(search).to be_a(Hash)
         expect(search[:results]).to be_an(Array)
