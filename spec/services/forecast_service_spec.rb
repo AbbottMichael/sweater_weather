@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe WeatherService do
+RSpec.describe ForecastService do
   context 'class methods' do
-    context '::get_weather_by_lat_lon' do
+    context '::get_forecast_by_lat_lon' do
       it 'returns weather data for a given latitude and longitude', :vcr do
-        search = WeatherService.get_weather_by_lat_lon(39.738453, -104.984853)
+        search = ForecastService.get_forecast_by_lat_lon(39.738453, -104.984853)
         expect(search).to be_a(Hash)
         expect(search[:current]).to be_a(Hash)
         expect(search[:current][:dt]).to be_an(Integer)
@@ -36,8 +36,8 @@ RSpec.describe WeatherService do
         expect(daily[:sunrise]).to be_an(Integer)
         expect(daily[:sunset]).to be_an(Integer)
         expect(daily[:temp]).to be_a(Hash)
-        expect(daily[:temp][:min]).to be_a(Float)
-        expect(daily[:temp][:max]).to be_a(Float)
+        expect(daily[:temp][:min]).to be_a(Numeric)
+        expect(daily[:temp][:max]).to be_a(Numeric)
 
         expect(daily[:weather]).to be_an(Array)
         weather_daily = daily[:weather].first
