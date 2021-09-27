@@ -28,8 +28,7 @@ RSpec.describe Map do
              :type=>"s",
              :latLng=>{:lat=>39.738453, :lng=>-104.984853},
              :displayLatLng=>{:lat=>39.738453, :lng=>-104.984853},
-             :mapUrl=>
-              ""},
+             :mapUrl=>""},
             {:street=>"",
              :adminArea6=>"",
              :adminArea6Type=>"Neighborhood",
@@ -51,7 +50,8 @@ RSpec.describe Map do
              :type=>"s",
              :latLng=>{:lat=>39.738453, :lng=>-104.984853},
              :displayLatLng=>{:lat=>39.738453, :lng=>-104.984853},
-             :mapUrl=>""
+             :mapUrl=>""}
+             ]}]}
 
     results = Map.new(coordinates[:results].first[:locations].first)
 
