@@ -1,10 +1,16 @@
 class Book
-  def initialize(data, forecast, location)
+  attr_reader :destination,
+              :forecast,
+              :total_books_found,
+              :books,
+              :id
+
+  def initialize(data, weather, location)
     @id = "null"
     @destination = location
     @forecast = {}
-    @forecast[:summary] = forecast.current_weather[:description]
-    @forecast[:temperature] = forecast.current_weather[:temperature]
+    @forecast[:summary] = weather[0]
+    @forecast[:temperature] = weather[1].to_s + " F"
     @total_books_found = data[:numFound]
     @books = []
       data[:docs].each do |doc|
