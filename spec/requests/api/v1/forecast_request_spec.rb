@@ -10,12 +10,14 @@ RSpec.describe 'Forecast API' do
 
     expect(forecast).to have_key(:data)
     expect(forecast[:data]).to be_a(Hash)
+    expect(forecast[:data].keys.count).to eq(3)
     expect(forecast[:data]).to have_key(:id)
     expect(forecast[:data][:id]).to eq("null")
     expect(forecast[:data]).to have_key(:type)
     expect(forecast[:data][:type]).to eq("forecast")
     expect(forecast[:data]).to have_key(:attributes)
     expect(forecast[:data][:attributes]).to be_a(Hash)
+    expect(forecast[:data][:attributes].keys.count).to eq(3)
     expect(forecast[:data][:attributes]).to have_key(:current_weather)
     current = forecast[:data][:attributes][:current_weather]
 
