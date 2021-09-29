@@ -1,5 +1,12 @@
 RSpec.describe 'sessions API' do
   it 'returns the email and an api_key of a user after a succesfull login', :vcr do
+    User.create!(
+      email: "whatever@example.com",
+      password: "password",
+      password_confirmation: "password"
+    )
+    User.last.api_keys.create!(token: SecureRandom.hex)
+
      body = {
       email: "Whatever@example.com",
       password: "password"
