@@ -1,13 +1,16 @@
 class Api::V1::SessionsController < ApplicationController
 
   def create
+    if session_params[:email].nil? || session_params[:password].nil?
+      return (render json: {error: "Must provide an email and a password"}, status: :bad_request)
+    end
     user = User.find_by(email: session_params[:email].downcase)
     if user.nil?
-      render json: {error: "User does not exist"}, status: :not_found
+      render json: {error: "The information does not match any records"}, status: :not_found
     elsif user.authenticate(session_params[:password])
-      render json: UserSerializer.new(user), status: :created
+      render json: UserSerializer.new(user), status: :ok
     else
-      render json: {error: "#{user.errors.full_messages.to_sentence}"}, status: :bad_request
+      render json: {error: "The information does not match any records"}, status: :not_found
     end
   end
 
