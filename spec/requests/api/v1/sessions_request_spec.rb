@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 RSpec.describe 'sessions API' do
   it 'returns the email and an api_key of a user after a succesfull login', :vcr do
     User.create!(
@@ -103,4 +105,23 @@ RSpec.describe 'sessions API' do
     expect(message).to have_key(:error)
     expect(message[:error]).to eq("The information does not match any records")
   end
+
+  it 'returns an error if the params are passed through the uri', :vcr do
+    User.create!(
+      email: "whatever@example.com",
+      password: "password",
+      password_confirmation: "password"
+    )
+    User.last.api_keys.create!(token: SecureRandom.hex)
+
+    post '/api/v1/sessions?email=whatever@example.com&password=password', params: body, as: :json
+
+    expect(response.status).to eq(400)
+
+    message = JSON.parse(response.body, symbolize_names: true)
+
+    expect(message).to have_key(:error)
+    expect(message[:error]).to eq("Must provide login details in the body")
+  end
+
 end

@@ -20,5 +20,13 @@ RSpec.describe MapService do
         expect(location[:latLng][:lng]).to be_a(Float)
       end
     end
+
+    context "::get_trip_details" do
+      it "returns the details about the road trip between an origin and destination", :vcr do
+        trip = MapService.get_trip_details('denver,co', 'Estes Park, CO')
+
+        expect(trip).to be_a(Hash)
+      end
+    end
   end
 end
