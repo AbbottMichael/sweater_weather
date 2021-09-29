@@ -7,7 +7,7 @@ RSpec.describe 'sessions API' do
     )
     User.last.api_keys.create!(token: SecureRandom.hex)
 
-     body = {
+    body = {
       email: "Whatever@example.com",
       password: "password"
     }
@@ -15,7 +15,7 @@ RSpec.describe 'sessions API' do
     post '/api/v1/sessions', params: body, as: :json
 
     expect(response).to be_successful
-    expect(response.status).to eq(201)
+    expect(response.status).to eq(200)
 
     user = JSON.parse(response.body, symbolize_names: true)
 
@@ -33,5 +33,74 @@ RSpec.describe 'sessions API' do
     expect(user[:data][:attributes][:email]).to eq(body[:email].downcase)
     expect(user[:data][:attributes]).to have_key(:api_key)
     expect(user[:data][:attributes][:email]).to be_a(String)
+  end
+
+  it 'returns an error if email is missing', :vcr do
+    body = {
+      password: "password"
+    }
+
+    post '/api/v1/sessions', params: body, as: :json
+
+    expect(response.status).to eq(400)
+
+    message = JSON.parse(response.body, symbolize_names: true)
+
+    expect(message).to have_key(:error)
+    expect(message[:error]).to eq("Must provide an email and a password")
+  end
+
+  it 'returns an error if password is missing', :vcr do
+    body = {
+      email: "whatever@example.com"
+    }
+
+    post '/api/v1/sessions', params: body, as: :json
+
+    expect(response.status).to eq(400)
+
+    message = JSON.parse(response.body, symbolize_names: true)
+
+    expect(message).to have_key(:error)
+    expect(message[:error]).to eq("Must provide an email and a password")
+  end
+
+  it 'returns an error if the email does not match User', :vcr do
+    body = {
+      email: "whatever5@example.com",
+      password: "password"
+    }
+
+    post '/api/v1/sessions', params: body, as: :json
+
+    expect(response.status).to eq(404)
+
+    message = JSON.parse(response.body, symbolize_names: true)
+
+    expect(message).to have_key(:error)
+    expect(message[:error]).to eq("The information does not match any records")
+  end
+
+  it 'returns an error if the password is incorrect', :vcr do
+    User.create!(
+      email: "whatever@example.com",
+      password: "password",
+      password_confirmation: "password"
+    )
+    User.last.api_keys.create!(token: SecureRandom.hex)
+
+    body = {
+      email: "whatever@example.com",
+      password: "bad guess"
+    }
+
+    post '/api/v1/sessions', params: body, as: :json
+
+    expect(response.status).to eq(404)
+
+    message = JSON.parse(response.body, symbolize_names: true)
+
+    expect(message).to have_key(:error)
+    expect(message[:error]).to eq("The information does not match any records")
   end
 end
