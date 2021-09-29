@@ -26,5 +26,6 @@ class RoadTrip
     hours = (((trip_seconds / 3600.0).round) - 1)
     return 0 if (hours <= 0)
     return 7 if (hours >= 8)
+    hours
   end
 end

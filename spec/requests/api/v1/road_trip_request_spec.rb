@@ -41,7 +41,7 @@ RSpec.describe 'road trip API' do
     expect(attributes).to have_key(:end_city)
     expect(attributes[:end_city]).to be_a(String)
     expect(attributes).to have_key(:travel_time)
-    expect(attributes[:travel_time]).to eq('impossible')
+    expect(attributes[:travel_time]).to be_a(String)
     expect(attributes).to have_key(:weather_at_eta)
     expect(attributes[:weather_at_eta]).to be_a(Hash)
     expect(attributes[:weather_at_eta].keys.count).to eq(2)
