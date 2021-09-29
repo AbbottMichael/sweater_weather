@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 RSpec.describe 'users API' do
   it 'returns the email and an api_key of a successfully registered user', :vcr do
      body = {

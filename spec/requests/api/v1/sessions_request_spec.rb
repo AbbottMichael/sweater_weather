@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 RSpec.describe 'sessions API' do
   it 'returns the email and an api_key of a user after a succesfull login', :vcr do
     User.create!(
