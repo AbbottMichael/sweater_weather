@@ -16,7 +16,7 @@ RSpec.describe 'road trip API' do
       api_key: user.api_keys.first[:token]
     }
 
-    post '/api/v1/roadtrip', params: body, as: :json
+    post '/api/v1/road_trip', params: body, as: :json
 
     expect(response).to be_successful
     expect(response.status).to eq(200)
