@@ -10,7 +10,7 @@ class Api::V1::SessionsController < ApplicationController
     end
 
     user = User.find_by(email: session_params[:email].downcase)
-    
+
     if user.nil?
       render json: {error: "The information does not match any records"}, status: :not_found
     elsif user.authenticate(session_params[:password])
@@ -24,6 +24,6 @@ class Api::V1::SessionsController < ApplicationController
 
   def session_params
     params.require(:session).
-    permit(:email, :password)
+      permit(:email, :password)
   end
 end
