@@ -32,8 +32,8 @@ workflows:
 
   heroku_deploy:
     jobs:
-      - heroku/deploy-via-git:
-          post-steps:
-            - run: rake db:migrate
+      - heroku/deploy-via-git
+          # post-steps:
+          #   - run: heroku run rake db:migrate
           # pre-steps:
           #   - run: command-that-run-before-deploying
