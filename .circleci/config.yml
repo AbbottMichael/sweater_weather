@@ -35,8 +35,6 @@ workflows:
          filters:
             branches:
               only: main
-          requires:
-            - build
           post-steps:
             - run: rails db:migrate
           # pre-steps:
