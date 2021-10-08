@@ -32,9 +32,6 @@ workflows:
   heroku_deploy:
     jobs:
       - heroku/deploy-via-git:
-         filters:
-            branches:
-              only: main
           post-steps:
             - run: rails db:migrate
           # pre-steps:
